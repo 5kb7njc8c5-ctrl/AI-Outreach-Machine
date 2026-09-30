@@ -26,7 +26,7 @@ We bouwen het systeem dat H&K Solutions zelf gebruikt als worked example — **1
 **Haal de cursus op:**
 
 ```bash
-git clone https://github.com/hk-solutions/AI-Outreach-Machine.git
+git clone https://github.com/5kb7njc8c5-ctrl/AI-Outreach-Machine.git
 cd AI-Outreach-Machine
 ```
 
