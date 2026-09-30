@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Outreach Machine — Voortgang</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      background: #0a0a0a;
+      color: #e5e5e5;
+      font-family: -apple-system, 'Inter', sans-serif;
+      padding: 32px 24px;
+      min-height: 100vh;
+    }
+    
+    .header {
+      margin-bottom: 32px;
+    }
+    
+    .logo {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #555;
+      margin-bottom: 8px;
+    }
+    
+    .title {
+      font-size: 22px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    
+    .subtitle {
+      font-size: 13px;
+      color: #555;
+    }
+    
+    .progress-bar-wrap {
+      background: #111;
+      border: 1px solid #1a1a1a;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 24px;
+    }
+    
+    .progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 10px;
+    }
+    
+    .bar {
+      background: #1a1a1a;
+      border-radius: 4px;
+      height: 6px;
+      overflow: hidden;
+    }
+    
+    .bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6, #60a5fa);
+      border-radius: 4px;
+      transition: width 0.5s ease;
+    }
+    
+    .lessons {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    
+    .lesson {
+      background: #111;
+      border: 1px solid #1a1a1a;
+      border-radius: 8px;
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: border-color 0.2s;
+    }
+    
+    .lesson.active {
+      border-color: #3b82f6;
+      background: #0d1a2d;
+    }
+    
+    .lesson.done {
+      border-color: #1a3a1a;
+      background: #0a1a0a;
+    }
+    
+    .lesson-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    
+    .lesson.done .lesson-num { background: #1a3a1a; color: #4ade80; }
+    .lesson.active .lesson-num { background: #1a2a4a; color: #60a5fa; }
+    .lesson.pending .lesson-num { background: #1a1a1a; color: #444; }
+    
+    .lesson-info { flex: 1; }
+    
+    .lesson-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #e5e5e5;
+      margin-bottom: 2px;
+    }
+    
+    .lesson.pending .lesson-title { color: #555; }
+    
+    .lesson-meta {
+      font-size: 12px;
+      color: #555;
+    }
+    
+    .lesson-status {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 10px;
+      border-radius: 4px;
+    }
+    
+    .lesson.done .lesson-status { background: #1a3a1a; color: #4ade80; }
+    .lesson.active .lesson-status { background: #1a2a4a; color: #60a5fa; }
+    .lesson.pending .lesson-status { color: #333; }
+    
+    .step-dots {
+      display: flex;
+      gap: 4px;
+      margin-top: 6px;
+    }
+    
+    .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: #1a2a4a;
+    }
+    
+    .dot.done { background: #3b82f6; }
+    
+    .footer {
+      margin-top: 32px;
+      padding-top: 20px;
+      border-top: 1px solid #1a1a1a;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .footer-left {
+      font-size: 12px;
+      color: #444;
+    }
+    
+    .cta-link {
+      font-size: 12px;
+      color: #3b82f6;
+      text-decoration: none;
+    }
+    
+    .cta-link:hover { color: #60a5fa; }
+    
+    .last-updated {
+      font-size: 11px;
+      color: #333;
+      margin-top: 16px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="logo">H&K Solutions · AI Outreach Machine</div>
+    <div class="title">Cursus Voortgang</div>
+    <div class="subtitle" id="subtitle">Laden...</div>
+  </div>
+  
+  <div class="progress-bar-wrap">
+    <div class="progress-label">
+      <span id="progress-text">0 van 9 lessen voltooid</span>
+      <span id="progress-pct">0%</span>
+    </div>
+    <div class="bar">
+      <div class="bar-fill" id="bar-fill" style="width:0%"></div>
+    </div>
+  </div>
+  
+  <div class="lessons" id="lessons-list"></div>
+  
+  <div class="footer">
+    <div class="footer-left">H&K Solutions · hk-solutions.nl</div>
+    <a class="cta-link" href="https://calendly.com/hk-solutions/callmaillink" target="_blank">
+      → Plan een consult met Leo
+    </a>
+  </div>
+  
+  <div class="last-updated" id="last-updated"></div>
+  
+  <script>
+    const LESSEN = [
+      { id: "00", title: "Intro — welkom & setup check", tijd: "5 min", steps: 3 },
+      { id: "01", title: "Fundament — doelgroep, pijn, aanbod", tijd: "30 min", steps: 4 },
+      { id: "02", title: "Infrastructuur — domein, e-mail, deliverability", tijd: "25 min", steps: 4 },
+      { id: "03", title: "Leads — vinden, screenen, database", tijd: "35 min", steps: 4 },
+      { id: "04", title: "Copy — templates op jouw stem", tijd: "30 min", steps: 4 },
+      { id: "05", title: "Automatisering — cronjobs & verzending", tijd: "40 min", steps: 4 },
+      { id: "06", title: "Inbox — replies, follow-ups, escalatie", tijd: "25 min", steps: 3 },
+      { id: "07", title: "Dashboard — Mission Control", tijd: "30 min", steps: 3 },
+      { id: "08", title: "Schalen — meten, groeien, volgende stap", tijd: "15 min", steps: 3 },
+    ];
+    
+    async function loadProgress() {
+      try {
+        const r = await fetch('progress.json?t=' + Date.now());
+        if (!r.ok) return null;
+        return await r.json();
+      } catch { return null; }
+    }
+    
+    async function update() {
+      const p = await loadProgress();
+      
+      const completed = p?.completed_lessons ?? [];
+      const current = p?.current_lesson ?? null;
+      const currentStep = p?.current_step ?? 0;
+      const totalSteps = p?.total_steps ?? 0;
+      
+      const pct = Math.round((completed.length / LESSEN.length) * 100);
+      document.getElementById('progress-text').textContent = 
+        `${completed.length} van ${LESSEN.length} lessen voltooid`;
+      document.getElementById('progress-pct').textContent = pct + '%';
+      document.getElementById('bar-fill').style.width = pct + '%';
+      
+      document.getElementById('subtitle').textContent = current
+        ? `Bezig met les ${parseInt(current) + 1} van ${LESSEN.length}`
+        : completed.length === LESSEN.length
+          ? '🎉 Alle lessen voltooid'
+          : 'Start met /outreach:00-intro in Claude Code';
+      
+      const list = document.getElementById('lessons-list');
+      list.innerHTML = LESSEN.map(les => {
+        const isDone = completed.includes(les.id);
+        const isActive = current === les.id && !isDone;
+        const cls = isDone ? 'done' : isActive ? 'active' : 'pending';
+        const statusText = isDone ? '✓ Klaar' : isActive ? 'Bezig' : '';
+        
+        let stepDots = '';
+        if (isActive && totalSteps > 0) {
+          stepDots = `<div class="step-dots">` +
+            Array.from({length: totalSteps}, (_, i) =>
+              `<div class="dot ${i < currentStep ? 'done' : ''}"></div>`
+            ).join('') +
+            `</div>`;
+        }
+        
+        return `
+          <div class="lesson ${cls}">
+            <div class="lesson-num">${parseInt(les.id)}</div>
+            <div class="lesson-info">
+              <div class="lesson-title">${les.title}</div>
+              <div class="lesson-meta">${les.tijd}</div>
+              ${stepDots}
+            </div>
+            ${statusText ? `<div class="lesson-status">${statusText}</div>` : ''}
+          </div>
+        `;
+      }).join('');
+      
+      document.getElementById('last-updated').textContent = 
+        'Bijgewerkt: ' + new Date().toLocaleTimeString('nl-NL');
+    }
+    
+    update();
+    setInterval(update, 2000);
+  </script>
+</body>
+</html>

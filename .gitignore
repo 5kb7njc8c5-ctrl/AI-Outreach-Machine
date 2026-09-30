@@ -1,0 +1,11 @@
+/.DS_Store
+__pycache__/
+*.pyc
+*.pyo
+logs/
+progress.json
+leads.json
+replies.json
+pipeline.json
+templates/*.html
+dashboard.html.bak
